@@ -16,18 +16,33 @@ subtitle:
 # - Add/remove as many `feature` blocks below as you like.
 # - For available icons, see: https://wowchemy.com/docs/page-builder/#icons
 feature:
-- description: 90%
+- description: Packages Developing:[`{tastypie}`](https://paolodalena.github.io/tastypie/)
   icon: r-project
   icon_pack: fab
-  name: R
-- description: 100%
+  name: R-programming
+- description: "[Git](https://git-scm.com/) / [GitHub](https://github.com/) / [GitLab](https://about.gitlab.com/)"
+  icon: git
+  icon_pack: fab
+  name: Version Control
+- description: "[Codecov](https://codecov.io/) /  [GitHub-Actions](https://github.com/features/actions)"
+  icon: code-branch
+  icon_pack: fas
+  name: Continuous Integration
+- description: "[R Markdown](https://rmarkdown.rstudio.com/index.html)<br>Books / Sites: [`{bookdown}`](https://bookdown.org/) / [`{pkgdown}`](https://pkgdown.r-lib.org/index.html) / [`{blogdown}`](https://bookdown.org/yihui/blogdown/)"
+  icon: markdown
+  icon_pack: fab
+  name: Reproducible Research
+- description: Classical / Bayesian / Data Science / Survival Analysis / Big Data Analytics / Time Series Analysis
   icon: chart-line
   icon_pack: fas
-  name: Statistics
-- description: 10%
-  icon: camera-retro
+  name: Statistics 
+- description: "[`{ggplot2}`](https://ggplot2.tidyverse.org/)"
+  icon: chart-bar
   icon_pack: fas
-  name: Photography
+  name: Graphics
+  
+
+
 
 # Uncomment to use emoji icons.
 #- icon: ":smile:"
