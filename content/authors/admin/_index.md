@@ -68,4 +68,4 @@ In April 2021 I will move to the [Hochschule Mannheim](https://www.english.hs-ma
 
 
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "media/resume.pdf" "newtab" >}}resumé{{< /staticref >}}(updated to November 2020).
+{{< icon name="download" pack="fas" >}} Download my {{< staticref "media/resume.pdf" "newtab" >}}CV{{< /staticref >}} (updated to November 2020).
