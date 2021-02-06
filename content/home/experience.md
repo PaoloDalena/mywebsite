@@ -22,24 +22,49 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: CEO
-    company: GenCoin
-    company_url: ''
-    location: California
-    date_start: '2017-01-01'
+  - title: Research Intern
+    company: Research Centre | Deutsche Bundesbank
+    company_url: 'https://www.bundesbank.de/en/bundesbank/research/research-centre'
+    location: Frankfurt am Main, Germany
+    date_start: '2021-02-01'
     date_end: ''
     description: |2-
-        Responsibilities include:
+        Main activities and responsibilities:
         
-        * Analysing
-        * Modelling
-        * Deploying
+        * Analysis and evaluation of research projects and recent publications.
+        * Text Mining and Big Data Analytics.
+
+  - title: Research Intern
+    company: Unit of Biostatistics, Epidemiology and Public Health - University of Padova
+    company_url: 'https://ubesp.jimdofree.com/'
+    location: Padova, Italy
+    date_start: '2019-01-01'
+    date_end: '2019-03-15'
+    description: |2-
+        Main activities and responsibilities:
         
-  - title: Professor
-    company: University X
-    company_url: ''
-    location: California
-    date_start: '2016-01-01'
-    date_end: '2016-12-31'
-    description: Taught electronic engineering and researched semiconductor physics.
+        * Text Mining on complex text sources: tumor marker guidelines. 
+        * Developing of an R package able to import text from PDF files.
+        
+        Acquired skills and achieved objectives:
+        * Data Science through R. 
+        * Understanding of R language. 
+        * Ability to program on R and develop an R Package.
+        
+        Company sector: Data Mining & Artificial Intelligence
+        
+  - title: Tutor in Statistics and Programming with R
+    company: Superprof.it
+    company_url: 'https://www.superprof.it/'
+    location: Bologna, Italy
+    date_start: '2017-01-05'
+    date_end: '2021-01-01'
+    description: |2-
+        Main activities and responsibilities:
+        
+        * Private lessons in Statistics, Probability, Data Analysis and Programming with R for undergraduate students of Bachelor's and Master's Degree Courses.
+        
+        Acquired skills and achieved objectives:
+        * Ability to share and integrate knowledge adapting it to different contexts and study paths.
+
 ---
