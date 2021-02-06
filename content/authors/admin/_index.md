@@ -6,8 +6,12 @@ title: Paolo Dalena
 superuser: true
 
 # Role/position/tagline
-role: Data Scientist
+role: Data Scientist, <br> MSc Statistical Sciences Student
 
+# Organizations/Affiliations to show in About widget
+organizations:
+- name: Alma Mater Studiorum - University of Bologna
+  url: https://www.unibo.it/
 
 # Short bio (displayed in user profile at end of posts)
 bio: R-enthusiast, Data Scientist. I love what I do.
