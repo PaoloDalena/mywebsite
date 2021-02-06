@@ -14,7 +14,7 @@ organizations:
   url: https://www.unibo.it/
 
 # Short bio (displayed in user profile at end of posts)
-bio: R-enthusiast, Data Scientist. I love what I do.
+bio: Data Scientist, R-enthusiast, building my future.
 
 # Interests to show in About widget
 interests:
