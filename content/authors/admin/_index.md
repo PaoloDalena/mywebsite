@@ -68,6 +68,6 @@ In April 2021 I will move to the [Hochschule Mannheim](https://www.english.hs-ma
 
 
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "media/resume.pdf" "newtab" >}}CV{{< /staticref >}} (updated to November 2020).
+{{< icon name="download" pack="fas" >}} Download my {{< staticref "media/resume.pdf" "newtab" >}}CV.{{< /staticref >}} (updated to November 2020)
 
-{{< icon name="r-project" pack="fab" >}} Check the website of my R package [{tastypie}](https://paolodalena.github.io/tastypie/) for making easy pie charts with R! (Available on [CRAN](https://cran.r-project.org/web/packages/tastypie/index.html)) {{< icon name="chart-pie" pack="fas" >}}
+{{< icon name="r-project" pack="fab" >}} Check the website of my R package [{tastypie}](https://paolodalena.github.io/tastypie/) for {{< icon name="chart-pie" pack="fas" >}} making easy pie charts with R! (available on [CRAN](https://cran.r-project.org/web/packages/tastypie/index.html))
