@@ -16,6 +16,10 @@ links:
   icon_pack: fab
   name: Star on GitHub
   url: https://github.com/PaoloDalena/tastypie
+- icon: r-project
+  icon_pack: fab
+  name: Check on CRAN
+  url: https://cran.r-project.org/web/packages/tastypie/index.html
 url_code: ""
 url_pdf: ""
 url_slides: ""
