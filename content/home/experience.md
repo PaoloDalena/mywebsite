@@ -22,12 +22,26 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
+  - title: Research Collaborator
+    company: WHO Collaborating Centre for Maternal and Child Health
+    company_url: 'https://www.burlo.trieste.it/content/who-collaborating-centre-maternal-and-child-health'
+    company_logo: WHO_logo.svg
+    location: Trieste, Italy
+    date_start: '2022-01-15'
+    date_end: ''
+    description: |2-
+        Main activities and responsibilities:
+        
+        * Biostatistical analysis of data from active projects.
+        * Project management.
+        * Writing scientific papers.
   - title: Research Intern
     company: Research Centre | Deutsche Bundesbank
     company_url: 'https://www.bundesbank.de/en/bundesbank/research/research-centre'
+    company_logo: bundes-logo
     location: Frankfurt am Main, Germany
     date_start: '2021-02-01'
-    date_end: ''
+    date_end: '2021-04-01'
     description: |2-
         Main activities and responsibilities:
         
@@ -37,6 +51,7 @@ experience:
   - title: Research Intern
     company: Unit of Biostatistics, Epidemiology and Public Health - University of Padova
     company_url: 'https://ubesp.jimdofree.com/'
+    company_logo: ubep-logo
     location: Padova, Italy
     date_start: '2019-01-01'
     date_end: '2019-03-15'
