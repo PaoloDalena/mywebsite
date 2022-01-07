@@ -6,12 +6,12 @@ title: Paolo Dalena
 superuser: true
 
 # Role/position/tagline
-role: Data Scientist, <br> MSc Statistical Sciences Student
+role: Data Scientist, <br> Research Collaborator
 
 # Organizations/Affiliations to show in About widget
 organizations:
-- name: Alma Mater Studiorum - University of Bologna
-  url: https://www.unibo.it/
+- name: WHO Collaborating Centre for Maternal and Child Health
+  url: https://www.burlo.trieste.it/content/who-collaborating-centre-maternal-and-child-health
 
 # Short bio (displayed in user profile at end of posts)
 bio: Data Scientist, R-enthusiast, building my future.
@@ -29,7 +29,7 @@ education:
   courses:
   - course: MSc in Statistical Sciences (curr. Data Science)
     institution: Alma Mater Studiorum - University of Bologna
-    year: ongoing
+    year: 2021
   - course: BSc in Statistical Sciences (curr. Economics & Business)
     institution: Alma Mater Studiorum - University of Bologna
     year: 2019
