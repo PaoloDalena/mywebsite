@@ -23,8 +23,8 @@ date_format: Jan 2006
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
   - title: Research Collaborator
-    company: WHO Collaborating Centre for Maternal and Child Health
-    company_url: 'https://www.burlo.trieste.it/content/who-collaborating-centre-maternal-and-child-health'
+    company: WHO Collaborating Centre for Maternal & Child Health
+    company_url: 'https://apps.who.int/whocc/Detail.aspx?T28gvIaS0+uDrSKBCUN0vw=='
     company_logo: WHO_logo.svg
     location: Trieste, Italy
     date_start: '2022-01-15'
