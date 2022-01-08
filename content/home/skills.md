@@ -40,15 +40,18 @@ feature:
   icon: chart-bar
   icon_pack: fas
   name: Graphics
-- description:
-  icon: NULL
-  icon_pack: NULL
-  name: 
+- description: Printing cool stuff with my [Anycubic i3 Mega S](https://www.anycubic.com/products/anycubic-i3-mega-s)
+  icon: cubes
+  icon_pack: fas
+  name: 3d printing
 - description: Me and my colleague [Dado](https://github.com/PaoloDalena/mywebsite/blob/master/images/dad.jpeg) are almost unbeatable
   icon: futbol
   icon_pack: far
   name: Table Football
-
+- description: Still learning while trying not to break my bones
+  icon: grav
+  icon_pack: fab
+  name: Skateboarding
 
 
 # Uncomment to use emoji icons.
