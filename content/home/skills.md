@@ -50,7 +50,7 @@ feature:
   name: Table Football
 - description: Still learning while trying not to break my bones
   icon: mountain
-  icon_pack: fab
+  icon_pack: fas
   name: Climbing
 
 
@@ -66,5 +66,15 @@ feature:
 - icon: "climbing"
   icon_pack: "custom"
   name: "Surfing"
+  description: "90%"
+  
+- icon: climbing
+  icon_pack: custom
+  name: "Surfing 2"
+  description: "90%"
+  
+- icon: climbing
+  icon_pack: 
+  name: "Surfing 3"
   description: "90%"
 ---
