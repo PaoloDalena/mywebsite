@@ -6,12 +6,16 @@ title: Paolo Dalena
 superuser: true
 
 # Role/position/tagline
-role: Data Scientist <br> Research Collaborator
+role: Data Scientist <br><br> Health Researcher <br><br> PhD Candidate in<br>Artificial Intelligence<br>& Applied Data Science
 
 # Organizations/Affiliations to show in About widget
 organizations:
-- name: WHO Collaborating Centre for Maternal & Child Health
-  url: https://apps.who.int/whocc/Detail.aspx?T28gvIaS0+uDrSKBCUN0vw==
+- name: IRCCS Burlo Garofolo
+  url: https://www.burlo.trieste.it/
+- name: University of Trieste
+  url: https://www.units.it/
+- name: ADSAI PhD Program
+  url: https://adsai.units.it/phd-program/
 
 # Short bio (displayed in user profile at end of posts)
 bio: Data Scientist, R-enthusiast, building my future.
@@ -27,6 +31,12 @@ interests:
 # Education to show in About widget
 education:
   courses:
+  - course: PhD Candidate in Artificial Intelligence & Applied Data Science
+    institution: University of Trieste
+    year: Nov 2023 - current
+  - course: Second-level Short Specialisation degree in Machine learning and big data in precision medicine and biomedical research
+    institution: University of Padova
+    year: Nov 2022 - Oct 2023
   - course: MSc in Statistical Sciences (curr. Data Science)
     institution: Alma Mater Studiorum - University of Bologna
     year: Oct 2021, 110/110 L
@@ -51,16 +61,13 @@ social:
 - icon: linkedin
   icon_pack: fab
   link: https://www.linkedin.com/in/paolo-dalena/
-- icon: instagram
-  icon_pack: fab
-  link: https://www.instagram.com/dalpao/
 
 
 # Enter email to display Gravatar (if Gravatar enabled in Config)
 email: ""
 
 # Highlight the author in author lists? (true/false)
-highlight_name: false
+highlight_name: true
 ---
 
 I was born in [Putignano](https://www.google.com/maps/@40.8492187,17.1225482,3a,75y,70.92h,99.73t/data=!3m6!1e1!3m4!1slr2xdEuNgaCkx6MqLo2Ugg!2e0!7i13312!8i6656) in 1997.  
