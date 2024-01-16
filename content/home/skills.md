@@ -67,14 +67,14 @@ feature:
   icon_pack: "custom"
   name: "Surfing"
   description: "90%"
-  
+
 - icon: climbing
   icon_pack: custom
   name: "Surfing 2"
   description: "90%"
-  
+
 - icon: climbing
-  icon_pack: 
+  icon_pack:
   name: "Surfing 3"
   description: "90%"
 ---
