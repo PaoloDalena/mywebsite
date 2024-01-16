@@ -49,9 +49,9 @@ feature:
   icon_pack: far
   name: Table Football
 - description: Still learning while trying not to break my bones
-  icon: grav
+  icon: mountain
   icon_pack: fab
-  name: Skateboarding
+  name: Climbing
 
 
 # Uncomment to use emoji icons.
@@ -63,8 +63,8 @@ feature:
 # Uncomment to use custom SVG icons.
 # Place custom SVG icon in `assets/images/icon-pack/`, creating folders if necessary.
 # Reference the SVG icon name (without `.svg` extension) in the `icon` field.
-#- icon: "your-custom-icon-name"
-#  icon_pack: "custom"
-#  name: "Surfing"
-#  description: "90%"
+- icon: "climbing"
+  icon_pack: "custom"
+  name: "Surfing"
+  description: "90%"
 ---
