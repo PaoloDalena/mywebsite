@@ -63,18 +63,18 @@ feature:
 # Uncomment to use custom SVG icons.
 # Place custom SVG icon in `assets/images/icon-pack/`, creating folders if necessary.
 # Reference the SVG icon name (without `.svg` extension) in the `icon` field.
-- icon: "climbing"
-  icon_pack: "custom"
-  name: "Surfing"
-  description: "90%"
-
-- icon: climbing
-  icon_pack: custom
-  name: "Surfing 2"
-  description: "90%"
-
-- icon: climbing
-  icon_pack:
-  name: "Surfing 3"
-  description: "90%"
+# - icon: "climbing"
+#   icon_pack: "custom"
+#   name: "Surfing"
+#   description: "90%"
+# 
+# - icon: climbing
+#   icon_pack: custom
+#   name: "Surfing 2"
+#   description: "90%"
+# 
+# - icon: climbing
+#   icon_pack:
+#   name: "Surfing 3"
+#   description: "90%"
 ---
