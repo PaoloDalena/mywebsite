@@ -22,6 +22,12 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
+  - title: PhD in Applied Data Science & Artificial Intelligence
+    company: University of Trieste
+    company_url: 'https://adsai.units.it/phd-program/'
+    location: Trieste, Italy
+    date_start: '2023-11-09'
+    date_end: ''
   - title: Health Researcher - Data Scientist
     company: IRCCS Burlo Garofolo
     company_url: 'https://www.burlo.trieste.it/'
