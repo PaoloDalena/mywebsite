@@ -113,6 +113,7 @@ contact_links = [
   {icon = "github", icon_pack = "fab", name = "GitHub Me", link = "//github.com/PaoloDalena"},
   {icon = "linkedin", icon_pack = "fab", name = "LinkedIn Me", link = "https://www.linkedin.com/in/paolo-dalena/"},
   {icon = "telegram", icon_pack = "fab", name = "Telegram Me", link = "https://telegram.me/dalpao"},
+  {icon = "orcid", icon_pack = "ai", name = "ORCID Me", link = "https://orcid.org/0000-0003-2920-9572"},
   ]
 
 ############################
