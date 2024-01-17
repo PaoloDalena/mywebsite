@@ -31,9 +31,9 @@ tags:
 - Source Themes
 featured: false
 
-# links:
-# - name: "Online version"
-#   url: "https://jogh.org/2023/jogh-13-06013"
+links:
+- name: "Online version"
+  url: "https://jogh.org/2023/jogh-13-06013"
 url_pdf: https://jogh.org/wp-content/uploads/2023/05/jogh-13-06013.pdf
 url_code: ''
 url_dataset: ''
@@ -46,7 +46,7 @@ url_video: ''
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder. 
 image:
-  caption: 'Women’s suggestions on how to improve the quality of maternal and newborn care: major themes in the co-occurrence network. The size of the points indicates node degree centrality; darker lines represent a higher degree of co-occurrence of pairs of terms. Cluster labels in the legend are in descending order of cluster size.'
+  caption: 'Women’s suggestions on how to improve the quality of maternal and newborn care: major themes in the co-occurrence network.'
   focal_point: ""
   preview_only: false
 
@@ -62,15 +62,13 @@ projects: []
 #   Simply enter your slide deck's filename without extension.
 #   E.g. `slides: "example"` references `content/slides/example/index.md`.
 #   Otherwise, set `slides: ""`.
-slides: example
+slides: ""
 ---
 
-{{% callout note %}}
-Click the *Cite* button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
-
-{{% callout note %}}
-Create your slides in Markdown - click the *Slides* button to check out the example.
-{{% /callout %}}
-
-Supplementary notes can be added here, including [code, math, and images].
+# {{% callout note %}}
+# Click the *Cite* button above to demo the feature to enable visitors to import publication metadata into their reference management software.
+# {{% /callout %}}
+# {{% callout note %}}
+# Create your slides in Markdown - click the *Slides* button to check out the example.
+# {{% /callout %}}
+# Supplementary notes can be added here, including [code, math, and images].
