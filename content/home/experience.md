@@ -22,13 +22,20 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
+  - title: Health Researcher - Data Scientist
+    company: IRCCS Burlo Garofolo
+    company_url: 'https://www.burlo.trieste.it/'
+    company_logo: "WHO_logo.svg"
+    location: Trieste, Italy
+    date_start: '2023-02-01'
+    date_end: ''
   - title: Research Collaborator
     company: WHO Collaborating Centre for Maternal & Child Health
     company_url: 'https://apps.who.int/whocc/Detail.aspx?T28gvIaS0+uDrSKBCUN0vw=='
     company_logo: WHO_logo.svg
     location: Trieste, Italy
     date_start: '2022-01-15'
-    date_end: ''
+    date_end: '2023-01-31'
     description: |2-
         Main activities and responsibilities:
         
