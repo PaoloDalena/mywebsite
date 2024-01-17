@@ -6,7 +6,7 @@ title: Paolo Dalena
 superuser: true
 
 # Role/position/tagline
-role: Data Scientist <br> Health Researcher <<br> PhD Candidate in Artificial Intelligence & Applied Data Science
+role: Data Scientist <br> Health Researcher <br> PhD Candidate in Artificial Intelligence & Applied Data Science
 
 # Organizations/Affiliations to show in About widget
 organizations:
