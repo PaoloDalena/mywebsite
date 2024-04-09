@@ -1,16 +1,20 @@
 ---
-title: "Women’s suggestions on how to improve the quality of maternal and newborn care during the COVID-19 pandemic in Italy: A co-occurrence network analysis"
+title: "Parental stress, depression, anxiety and participation in care in neonatal intensive care unit: a cross-sectional study in Italy comparing mothers versus fathers"
 authors:
-- Sara Geremia
-- Emanuelle Pessa Valente
-- Ilaria Mariani
+- Jenny Bua
 - admin
+- Ilaria Mariani
+- Martina Girardelli
+- Maddalena Ermacora
+- Ursula Manzon
+- Sabrina Plet
+- Laura Travan
 - Marzia Lazzerini
-date: "2023-09-01T00:00:00Z"
+date: "2024-04-01T00:00:00Z"
 doi: ""
 
 # Schedule page publish date (NOT publication's date).
-publishDate: "2023-01-01T00:00:00Z"
+publishDate: "2024-04-01T00:00:00Z"
 
 # Publication type.
 # Legend: 0 = Uncategorized; 1 = Conference paper; 2 = Journal article;
@@ -19,13 +23,16 @@ publishDate: "2023-01-01T00:00:00Z"
 publication_types: ["2"]
 
 # Publication name and optional abbreviated publication name.
-publication: "*Journal of Global Health*"
+publication: "*BMJ Paediatrics Open*"
 publication_short: ""
 
-abstract: Recent evidence revealed significant gaps in the quality of maternal and newborn care in the World Health Organization (WHO) European Region (EUR) countries. Collecting and analyzing women’s views on their needs and priorities is crucial for developing actions to improve the quality of maternal and newborn care. With this study from the IMAgiNE EURO Project, we aimed to add to previous quantitative studies by analysing emerging themes from women’s suggestions on how to improve the quality of maternal and newborn care during facility-based birth in Italy during the COVID-19 pandemic. We collected data from mothers giving birth during the coronavirus 2019 (COVID-19) pandemic using a validated online anonymous WHO standard-based questionnaire consisting of open-ended questions. Using a word co-occurrence network (WCON), we analysed responses in Italian from women who gave birth between March 2020 and March 2022. This approach entails a graphical representation of word pairings that frequently co-occur across sentences and compose clusters. The texts, produced by 2010 women participating in the study, consisted of 79204 words and 3833 sentences. Eight clusters emerged with WCON, the three largest of which were related to companionship during childbirth, breastfeeding support, and physical resources. The term “swab”, associated with other terms in the COVID-19 domain, had the highest degree of centrality, thus representing a core topic. The key emerging themes from women’s suggestions can be used to shape policies to improve the quality of care for mothers and newborns. Our WCON analysis offers a valid approach to quickly screen large textual data on quality of care, providing a first set of major themes identified by clusters. As such, it could be used to improve documentation of service users’ suggestions promoting the engagement of both researchers and policymakers.
+abstract: *Background* This study aimed at documenting the levels of stress, depression, anxiety and participation in care among mothers versus fathers of newborns hospitalised in a third-level neonatal intensive care unit (NICU) in Northern Italy.
+*Methods* Parental stress, depression and anxiety were assessed by the Parental Stressor Scale in NICU (PSS:NICU), the Edinburgh Postnatal Depression Scale (EPDS) and the State-Trait Anxiety Inventory (STAI). Participation in care was evaluated with the Index of Parental Participation. Differences between mothers and fathers were assessed with the Mood’s median test and z-test, respectively for continuous and discrete variables. Multivariate analyses controlling for potential confounders were performed to confirm gender differences.
+*Results* 191 parents (112 mothers and 79 fathers) were enrolled. Mothers reported significantly higher median scores for stress (2.9 vs 2.2, p<0.001) and trait anxiety (37 vs 32, p=0.004) and higher depression rates (EPDS ≥12: 43.8% vs 19.0%, p<0.001). ‘High stress’ (PSS:NICU ≥3) was reported by 45.5% of mothers compared with 24.1% of fathers (p=0.004). The frequency of the three conditions simultaneously was significantly higher among mothers (20.0% vs 3.8%, p=0.016), with the vast majority of mothers (76.0%) suffering from at least one condition compared with less than half of fathers (45.3%, p<0.001). Participation in care was more frequent in mothers (median score: 19 vs 15, p<0.001), with the exception of activities related to advocacy (median 5 vs 4, p=0.053). In a multivariate analysis, gender differences in mental health outcomes did not change.
+*Conclusions* Routine screening of mental distress among parents of infants in NICU is warranted, and gender differences need to be acknowledged in order to deliver tailored support and to promote collaboration with the family of vulnerable newborns. Knowledge and skills on how to prevent and cope with mental distress of parents should be part of the core curriculum of staff working in NICU.
 
 # Summary. An optional shortened abstract.
-summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.
+summary: 
 
 tags:
 - Source Themes
@@ -33,8 +40,8 @@ featured: false
 
 links:
 - name: "Online version"
-  url: "https://jogh.org/2023/jogh-13-06013"
-url_pdf: https://jogh.org/wp-content/uploads/2023/05/jogh-13-06013.pdf
+  url: "https://bmjpaedsopen.bmj.com/content/8/Suppl_2/e002429.full"
+url_pdf: https://bmjpaedsopen.bmj.com/content/bmjpo/8/Suppl_2/e002429.full.pdf
 url_code: ''
 url_dataset: ''
 url_poster: ''
@@ -46,7 +53,7 @@ url_video: ''
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder. 
 image:
-  caption: 'Women’s suggestions on how to improve the quality of maternal and newborn care: major themes in the co-occurrence network.'
+  caption: ''
   focal_point: ""
   preview_only: false
 
