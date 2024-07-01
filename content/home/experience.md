@@ -28,6 +28,8 @@ experience:
     location: Trieste, Italy
     date_start: '2023-11-09'
     date_end: ''
+    description: |2-
+        Project title: "Development of a prioritization algorithm of pathogenic variants based on public databases of different origins."
   - title: Health Researcher - Data Scientist
     company: IRCCS Burlo Garofolo
     company_url: 'https://www.burlo.trieste.it/'
@@ -35,6 +37,14 @@ experience:
     location: Trieste, Italy
     date_start: '2023-02-01'
     date_end: ''
+    description: |2-
+        Main activities and responsibilities:
+        
+        * *Clinical Biostatistics, Epidemiology, Computational Genomics.*
+        * Writing scientific papers.
+        * Writing research protocols.
+        * Project management.
+        
   - title: Research Collaborator
     company: WHO Collaborating Centre for Maternal & Child Health
     company_url: 'https://apps.who.int/whocc/Detail.aspx?T28gvIaS0+uDrSKBCUN0vw=='
