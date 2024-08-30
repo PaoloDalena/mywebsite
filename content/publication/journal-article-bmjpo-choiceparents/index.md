@@ -1,5 +1,5 @@
 ---
-title: "Parental stress, depression, anxiety and participation to care in neonatal intensive care units: results of a prospective study in Italy, Brazil and Tanzania"
+title: "Implementation of the WHO Standards to assess quality of paediatric care at the facility level using service users’ perspective as source of data: a multicentre quality improvement study in Italy"
 authors:
 - Silvia Bressan
 - Giada Sartor
@@ -7,7 +7,7 @@ authors:
 - et al
 
 date: "2024-08-30T00:00:00Z"
-doi: "Implementation of the WHO Standards to assess quality of paediatric care at the facility level using service users perspective as source of data: a multicentre quality improvement study in Italy"
+doi: "10.1136/bmjpo-2024-002600"
 
 # Schedule page publish date (NOT publication's date).
 publishDate: "2024-08-30T00:00:00Z"
