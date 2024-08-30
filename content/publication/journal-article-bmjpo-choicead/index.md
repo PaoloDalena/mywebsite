@@ -4,7 +4,7 @@ authors:
 - Marzia Lazzerini
 - Idanna Sforzi
 - Ilaria Liguoro
-- ...
+- "..."
 - admin
 
 date: "2024-08-30T00:00:00Z"
@@ -49,7 +49,7 @@ url_video: ''
 image:
   caption: 'Findings on the 10 CHOICE priority WHO Quality Measures on acute watery diarrhoea. 1Accurate ORS prescription=clear indications for parents in terms of quantity, timing and duration. 2Indication for reassessment=clear indications for parents on which signs and symptom need immediate reassessment from a doctor (eg, blood in the stools). ED, emergency department; IV, intravenous; ORS, oral rehydration solution; T°, body temperature (Celsius).'
   focal_point: ""
-  preview_only: true
+  preview_only: false
 
 # Associated Projects (optional).
 #   Associate this publication with one or more of your projects.
