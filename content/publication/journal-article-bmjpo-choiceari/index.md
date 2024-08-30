@@ -4,7 +4,7 @@ authors:
 - Marzia Lazzerini
 - Massimo Dagnelut
 - admin
-- et al.
+- et al
 
 date: "2024-08-30T00:00:00Z"
 doi: "10.1136/bmjpo-2024-002552"
