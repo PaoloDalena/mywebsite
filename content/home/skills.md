@@ -36,7 +36,7 @@ feature:
   icon: chart-line
   icon_pack: fas
   name: Statistics 
-- description: "[`{ggplot2}`](https://ggplot2.tidyverse.org/)"
+- description: "[`{ggplot2}`](https://ggplot2.tidyverse.org/)\n[`{plotly}`](https://plotly.com/)"
   icon: chart-bar
   icon_pack: fas
   name: Graphics
