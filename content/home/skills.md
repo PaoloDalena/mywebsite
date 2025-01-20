@@ -36,14 +36,14 @@ feature:
   icon: chart-line
   icon_pack: fas
   name: Statistics 
-- description: "[`{ggplot2}`](https://ggplot2.tidyverse.org/)\n[`{plotly}`](https://plotly.com/)"
+- description: "[`{ggplot2}`](https://ggplot2.tidyverse.org/) / [`{plotly}`](https://plotly.com/)"
   icon: chart-bar
   icon_pack: fas
   name: Graphics
-- description: Printing cool stuff with my [Anycubic i3 Mega S](https://www.anycubic.com/products/anycubic-i3-mega-s)
-  icon: cubes
+- description: data science applied to -omics data / computational genomics / computational biology
+  icon: dna
   icon_pack: fas
-  name: 3d printing
+  name: bioinformatics
 - description: Me and my colleague [Dado](https://github.com/PaoloDalena/mywebsite/blob/master/images/dad.jpeg) are almost unbeatable
   icon: futbol
   icon_pack: far
