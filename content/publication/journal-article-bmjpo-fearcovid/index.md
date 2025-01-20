@@ -35,8 +35,8 @@ featured: false
 
 links:
 - name: "Online version"
-  url: "https://jogh.org/2023/jogh-13-06013"
-url_pdf: https://jogh.org/wp-content/uploads/2023/05/jogh-13-06013.pdf
+  url: "https://bmjpaedsopen.bmj.com/content/8/1/e002926"
+url_pdf: https://bmjpaedsopen.bmj.com/content/bmjpo/8/1/e002926.full.pdf
 url_code: ''
 url_dataset: ''
 url_poster: ''
@@ -48,7 +48,7 @@ url_video: ''
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder. 
 image:
-  caption: 'Women’s suggestions on how to improve the quality of maternal and newborn care: major themes in the co-occurrence network.'
+  caption: 'Fear of accessing health services versus number of COVID-19 new positive cases.'
   focal_point: ""
   preview_only: false
 
