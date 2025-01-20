@@ -40,7 +40,7 @@ feature:
   icon: chart-bar
   icon_pack: fas
   name: Graphics
-- description: data science applied to -omics data / computational genomics / computational biology
+- description: Data science for *-omics* data / Computational genomics / Computational biology
   icon: dna
   icon_pack: fas
   name: bioinformatics
