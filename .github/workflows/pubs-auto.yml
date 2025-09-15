@@ -1,0 +1,115 @@
+name: Auto update publications (Google Scholar)
+
+on:
+  schedule:
+  - cron: '0 3 * * 1'   # ogni lunedì alle 03:00 UTC (~05:00/04:00 in Italia a seconda dell'ora legale)
+workflow_dispatch:
+
+  permissions:
+  contents: write
+
+jobs:
+  update-pubs:
+  runs-on: ubuntu-latest
+
+steps:
+  - name: Checkout
+uses: actions/checkout@v4
+
+- name: Setup R
+uses: r-lib/actions/setup-r@v2
+
+- name: Install R packages
+run: |
+  Rscript -e 'install.packages(c("scholar","rcrossref","stringr","dplyr"), repos="https://cloud.r-project.org")'
+
+- name: Generate BibTeX from Google Scholar
+env:
+  SCHOLAR_ID: "K7KKEgQAAAAJ"
+run: |
+  Rscript - <<'RSCRIPT'
+library(scholar)
+library(rcrossref)
+library(dplyr)
+library(stringr)
+
+sid <- Sys.getenv("SCHOLAR_ID")
+if (sid == "") { stop("SCHOLAR_ID non impostato") }
+
+# 1) prendi le pubblicazioni
+pubs <- tryCatch(get_publications(sid), error=function(e) {
+  message("Errore scholar: ", e$message); data.frame()
+})
+if (nrow(pubs) == 0) quit(save="no", status=0)
+
+# helper: normalizza titolo per matching
+norm <- function(x) x |>
+  tolower() |>
+  stringr::str_replace_all("\\s+", " ") |>
+  stringr::str_trim()
+
+# 2) prova a recuperare DOI da pub$doi; se mancante, cerca su Crossref per titolo+anno
+fetch_doi <- function(title, year){
+  title <- str_squish(title)
+  y <- suppressWarnings(as.integer(year))
+  # Cerca su Crossref con filtro anno +/-1 per robustezza
+  res <- tryCatch(cr_works(query = title, filter = list(from_pub_date = paste0(y-1,"-01-01"), until_pub_date = paste0(y+1,"-12-31")), limit=5),
+                  error=function(e) NULL)
+  if (is.null(res) || is.null(res$data) || nrow(res$data)==0) return(NA_character_)
+  # Scegli il match con titolo più vicino
+  cand <- res$data
+  cand$title_norm <- norm(vapply(cand$title, function(v) if(length(v)) v[1] else "", ""))
+  q <- norm(title)
+  cand$score <- stringdist::stringdist(cand$title_norm, q, method="jw")
+  cand <- cand[order(cand$score), , drop=FALSE]
+  doi <- cand$DOI[1]
+  if (is.na(doi) || doi=="") NA_character_ else doi
+}
+
+# stringdist serve per lo score — installa se manca
+if (!requireNamespace("stringdist", quietly = TRUE)) {
+  install.packages("stringdist", repos="https://cloud.r-project.org")
+}
+
+pubs <- pubs %>%
+  mutate(title = as.character(title),
+         year = suppressWarnings(as.integer(year)),
+         doi = ifelse(is.na(doi) | doi=="",
+                      vapply(seq_len(n()), function(i) fetch_doi(title[i], year[i]), ""),
+                      doi))
+
+# 3) scarica BibTeX per ogni DOI
+get_bib <- function(doi){
+  if (is.na(doi) || doi=="") return(NA_character_)
+  tryCatch(rcrossref::cr_cn(doi, "bibtex"),
+           error=function(e) NA_character_)
+}
+bibs <- unique(na.omit(vapply(pubs$doi, get_bib, "")))
+
+# Se ancora vuoto, esci senza errori
+if (length(bibs) == 0) quit(save="no", status=0)
+
+dir.create("data", showWarnings = FALSE)
+writeLines(bibs, "data/publications.bib")
+cat("Scritto data/publications.bib con", length(bibs), "voci\n")
+RSCRIPT
+
+- name: Setup Python
+uses: actions/setup-python@v5
+with:
+  python-version: '3.x'
+
+- name: Install Academic CLI
+run: pip install -U academic
+
+- name: Import into content/publication
+if: ${{ hashFiles('data/publications.bib') != '' }}
+run: academic import --bibtex data/publications.bib --overwrite
+
+- name: Commit & push
+run: |
+  git config user.name  "github-actions[bot]"
+git config user.email "github-actions[bot]@users.noreply.github.com"
+git add content/publication data/publications.bib || true
+git commit -m "Auto-update publications from Google Scholar" || echo "No changes"
+git push || true
