@@ -31,7 +31,7 @@ jobs:
 
       - name: Generate BibTeX from Google Scholar
         env:
-          SCHOLAR_ID: "INSERISCI_IL_TUO_ID"   # <-- metti il tuo ID Scholar
+          SCHOLAR_ID: "K7KKEgQAAAAJ"
         run: |
           Rscript - <<'RSCRIPT'
           library(scholar)
