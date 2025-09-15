@@ -32,7 +32,7 @@ feature:
   icon: markdown
   icon_pack: fab
   name: Reproducible Research
-- description: Classical / Bayesian / Data Science / Survival Analysis / Big Data Analytics / Time Series Analysis
+- description: Classical / Bayesian / Data Science / Biostatistics / Big Data Analytics / Time Series Analysis
   icon: chart-line
   icon_pack: fas
   name: Statistics 
@@ -43,7 +43,19 @@ feature:
 - description: Data science for *-omics* data / Computational genomics / Computational biology
   icon: dna
   icon_pack: fas
-  name: bioinformatics
+  name: Bioinformatics
+- description: Gene interactions / Gene coexpressions / Kinship coefficients
+  icon: project-diagram
+  icon_pack: fas
+  name: Network analysis
+- description: Text Mining / Natural Language Processing
+  icon: file-alt
+  icon_pack: fas
+  name: Text analytics
+- description: High performance bioinformatics on supercomputers
+  icon: server
+  icon_pack: fas
+  name: HPC
 - description: Me and my colleague [Dado](https://github.com/PaoloDalena/mywebsite/blob/master/images/dad.jpeg) are almost unbeatable
   icon: futbol
   icon_pack: far
