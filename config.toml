@@ -5,3 +5,19 @@
 # If you are not using those tools, this file may be deleted.
 #
 # The actual configuration files are stored in the `config/_default/` folder.
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+      [security]
+  enableInlineShortcodes = false
+
+  [security.exec]
+    allow = ['^dart-sass-embedded$', '^go$', '^npx$', '^postcss$']
+    osEnv = ['(?i)^(PATH|PATHEXT|APPDATA|TMP|TEMP|TERM)$']
+
+  [security.funcs]
+    # Permetti a Hugo di leggere variabili d'ambiente per Wowchemy/Blogdown
+    getenv = ['^HUGO_', '^WC_', '^BLOGDOWN_']
