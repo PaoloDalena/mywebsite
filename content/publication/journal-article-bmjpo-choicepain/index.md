@@ -60,7 +60,7 @@ image:
   preview_only: no
 projects: []
 slides: ''
-publication_types: ["2"]
+publication_types: '2'
 ---
 
 
