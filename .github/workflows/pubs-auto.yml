@@ -27,8 +27,6 @@ jobs:
             jsonlite
             rcrossref
             bibtex
-            xml2
-            stringr
 
       # Rigenera SEMPRE il BibTeX da ORCID e sovrascrive il file se ha contenuti
       - name: Fetch BibTeX from ORCID (always overwrite if non-empty)
@@ -139,95 +137,30 @@ jobs:
           }
           RSCRIPT
 
-      # Inserisce "## Abstract" + testo abstract nel corpo di ogni index.md
-      - name: Inject abstract into index.md (from cite.bib or Crossref)
+      # (Nuovo) Rimuove il placeholder e lascia il corpo vuoto
+      - name: Clear placeholder body in index.md
         run: |
           Rscript - <<'RSCRIPT'
-          suppressPackageStartupMessages({
-            library(bibtex); library(rcrossref); library(xml2); library(stringr)
-          })
-
-          # Helpers ---------------------------------------------------------
-          read_frontmatter_end <- function(lines) {
-            if (length(lines) < 2 || !startsWith(lines[1], "---")) return(0L)
-            idx <- which(lines[-1] == "---")
-            if (!length(idx)) return(0L)
-            return(idx[1] + 1L)
-          }
-
-          extract_yaml_value <- function(lines, key){
-            i <- grep(paste0("^\\s*", key, "\\s*:"), lines)
-            if (!length(i)) return(NA_character_)
-            val <- sub("^\\s*[^:]+:\\s*", "", lines[i[1]])
-            # rimuovi eventuali apici iniziali/finali
-            val <- gsub("^['\"]|['\"]$", "", val)
-            str_trim(val)
-          }
-
-          clean_abstract <- function(text){
-            if (is.na(text) || !nzchar(text)) return(NA_character_)
-            txt <- tryCatch({
-              as.character(xml_text(read_xml(paste0("<root>", text, "</root>"))))
-            }, error=function(e) NA_character_)
-            if (!is.na(txt)) return(str_squish(txt))
-            text <- gsub("<[^>]+>", " ", text)
-            str_squish(text)
-          }
-
-          get_abstract_for_dir <- function(dir){
-            # 1) cite.bib
-            bibf <- file.path(dir, "cite.bib")
-            if (file.exists(bibf)) {
-              b <- tryCatch(read.bib(bibf), error=function(e) NULL)
-              if (!is.null(b) && length(b)) {
-                ab <- tryCatch(as.character(b[[1]]$abstract), error=function(e) NA_character_)
-                ab <- clean_abstract(ab)
-                if (!is.na(ab) && nzchar(ab)) return(ab)
-              }
-            }
-            # 2) Crossref via DOI
-            idx <- file.path(dir, "index.md")
-            if (file.exists(idx)) {
-              lines <- readLines(idx, warn=FALSE, encoding="UTF-8")
-              doi <- extract_yaml_value(lines, "doi")
-              if (!is.na(doi) && nzchar(doi)) {
-                cr <- tryCatch(cr_works(dois = doi), error=function(e) NULL)
-                if (!is.null(cr) && !is.null(cr$data) && nrow(cr$data)) {
-                  ab <- cr$data$abstract[1]
-                  ab <- clean_abstract(ab)
-                  if (!is.na(ab) && nzchar(ab)) return(ab)
-                }
-              }
-            }
-            return(NA_character_)
-          }
-
-          replace_body_with_abstract <- function(idx_file, abstract){
-            lines <- readLines(idx_file, warn=FALSE, encoding="UTF-8")
-            k <- read_frontmatter_end(lines)
-            if (k == 0L) return(FALSE)
-            header <- lines[1:k]
-            new_body <- if (!is.na(abstract) && nzchar(abstract)) {
-              c("", "## Abstract", "", abstract, "")
-            } else {
-              c("", "")
-            }
-            writeLines(c(header, new_body), idx_file, useBytes=TRUE)
-            TRUE
-          }
-
-          # Main ------------------------------------------------------------
-          dirs <- list.dirs("content/publication", recursive=FALSE, full.names=TRUE)
-          cat("Injecting abstracts in", length(dirs), "publications…\n")
-          injected <- 0L
+          # Svuota il corpo degli index.md (togliendo eventuale placeholder) lasciando solo front matter + riga vuota
+          dirs <- list.dirs("content/publication", recursive = FALSE, full.names = TRUE)
+          cleared <- 0L
           for (d in dirs) {
-            idx <- file.path(d, "index.md")
-            if (!file.exists(idx)) next
-            ab <- get_abstract_for_dir(d)
-            ok <- replace_body_with_abstract(idx, ab)
-            if (ok) injected <- injected + 1L
+            f <- file.path(d, "index.md")
+            if (!file.exists(f)) next
+            x <- readLines(f, warn = FALSE, encoding = "UTF-8")
+            if (!length(x)) next
+            k <- 0L
+            if (startsWith(x[1], "---")) {
+              idx <- which(x[-1] == "---")
+              if (length(idx)) k <- idx[1] + 1L
+            }
+            if (k == 0L) next
+            header <- x[1:k]
+            new_body <- c("", "")  # corpo vuoto, niente placeholder
+            writeLines(c(header, new_body), f, useBytes = TRUE)
+            cleared <- cleared + 1L
           }
-          cat("Abstract injected/cleansed in", injected, "index.md files.\n")
+          cat("Corpi svuotati in", cleared, "pubblicazioni.\n")
           RSCRIPT
 
       - name: Commit & push
@@ -235,5 +168,5 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/publication .github/workflow_data/publications*.bib || true
-          git commit -m "Auto-update publications from ORCID (with abstracts)" || echo "No changes"
+          git commit -m "Auto-update publications from ORCID (normalized, cleaned bodies)" || echo "No changes"
           git push || true
