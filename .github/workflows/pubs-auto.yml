@@ -157,7 +157,7 @@ jobs:
             fm_lines <- c(
               "---",
               trimws(fm_yaml, which="right"),
-              paste0("publication_types: [\"", code, "\"]"),
+              paste0('publication_types: ["', code, '"]'),
               "---"
             )
             writeLines(c(fm_lines, body), f, useBytes=TRUE)
@@ -167,7 +167,51 @@ jobs:
           cat("publication_types normalizzati (forma compatta) in", fixed, "pagine.\n")
           RSCRIPT
 
-      # 5) Svuota il corpo (niente placeholder)
+      # 5) NORMALIZZA authors → sempre lista (e converte author → authors se serve)
+      - name: Normalize authors to list
+        run: |
+          Rscript - <<'RSCRIPT'
+          library(yaml)
+
+          files <- list.files("content", pattern="^index\\.md$", recursive=TRUE, full.names=TRUE)
+          fixed <- 0L
+
+          for (f in files) {
+            lines <- readLines(f, warn=FALSE, encoding="UTF-8")
+            if (length(lines) < 3 || !startsWith(lines[1], "---")) next
+            end <- which(lines[-1] == "---")
+            if (!length(end)) next
+            end <- end[1] + 1L
+
+            fm_txt <- paste(lines[2:(end-1)], collapse="\n")
+            body   <- if (end+1 <= length(lines)) lines[(end+1):length(lines)] else character(0)
+
+            fm <- tryCatch(yaml.load(fm_txt, eval.expr=FALSE), error=function(e) NULL)
+            if (is.null(fm)) next
+
+            # Se non c'è authors ma c'è author, promuovilo
+            if (is.null(fm$authors) && !is.null(fm$author)) {
+              a <- as.character(unlist(fm$author))
+              fm$authors <- as.list(trimws(a[nzchar(a)]))
+              fm$author <- NULL
+            } else if (!is.null(fm$authors)) {
+              a <- as.character(unlist(fm$authors))
+              fm$authors <- as.list(trimws(a[nzchar(a)]))
+            }
+
+            # Se ancora mancante, lascia stare
+            if (is.null(fm$authors)) next
+
+            fm_yaml <- tryCatch(as.yaml(fm, indent.mapping.sequence=TRUE), error=function(e) "")
+            out <- c("---", trimws(fm_yaml, which="right"), "---", body)
+            writeLines(out, f, useBytes=TRUE)
+            fixed <- fixed + 1L
+          }
+
+          cat("authors normalizzati in", fixed, "pagine.\n")
+          RSCRIPT
+
+      # 6) Svuota il corpo (niente placeholder)
       - name: Clear placeholder body in index.md
         run: |
           Rscript - <<'RSCRIPT'
@@ -189,11 +233,11 @@ jobs:
           cat("Corpi svuotati in", cleared, "pubblicazioni.\n")
           RSCRIPT
 
-      # 6) Commit & push
+      # 7) Commit & push
       - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/publication .github/workflow_data/publications*.bib || true
-          git commit -m "Auto-update publications from ORCID (normalized types + cleaned bodies)" || echo "No changes"
+          git commit -m "Auto-update publications from ORCID (normalized types/authors + cleaned bodies)" || echo "No changes"
           git push || true
