@@ -27,8 +27,9 @@ jobs:
             jsonlite
             rcrossref
             bibtex
+            yaml
 
-      # Rigenera SEMPRE il BibTeX da ORCID e sovrascrive il file se ha contenuti
+      # 1) Rigenera SEMPRE il BibTeX da ORCID e sovrascrive il file se ha contenuti
       - name: Fetch BibTeX from ORCID (always overwrite if non-empty)
         env:
           ORCID_ID: "0000-0003-2920-9572"  # <-- il tuo ORCID
@@ -76,6 +77,7 @@ jobs:
           cat("Scritto .github/workflow_data/publications.bib con", length(bibs), "voci\n")
           RSCRIPT
 
+      # 2) Normalizza BibTeX (la CLI è pignola sul formato)
       - name: Normalize BibTeX (CLI-friendly)
         if: ${{ hashFiles('.github/workflow_data/publications.bib') != '' }}
         run: |
@@ -94,6 +96,7 @@ jobs:
       - name: Install Academic CLI
         run: pip install -U academic
 
+      # 3) Import in content/publication
       - name: Import into content/publication
         if: ${{ hashFiles('.github/workflow_data/publications_clean.bib') != '' }}
         run: |
@@ -102,11 +105,12 @@ jobs:
           abs_out="$(pwd)/content/publication"
           academic import --bibtex "$abs_in" "$abs_out" --overwrite --normalize -v
 
-      # Normalizza eventuali tipi "verbosi" → codici numerici Wowchemy
-      - name: Normalize publication_types to numeric codes
+      # 4) NORMALIZZA publication_types alla forma compatta: publication_types: ["<code>"]
+      - name: Normalize publication_types to compact numeric form
         run: |
           Rscript - <<'RSCRIPT'
-          map <- list(
+          # Mappa dai tipi CSL (stringhe) ai codici Wowchemy
+          type_map <- c(
             "journal-article"="2","article-journal"="2",
             "proceedings-article"="1","conference-paper"="1",
             "preprint"="3","posted-content"="3",
@@ -116,37 +120,96 @@ jobs:
             "thesis"="7",
             "patent"="8"
           )
-          dirs <- list.dirs("content/publication", recursive = FALSE, full.names = TRUE)
-          for (d in dirs) {
-            f <- file.path(d, "index.md")
-            if (!file.exists(f)) next
-            x <- readLines(f, warn = FALSE, encoding = "UTF-8")
 
-            # sostituisci forme verbose con i codici
-            for (k in names(map)) {
-              pat <- paste0('\\["?', k, '"?\\]')
-              if (any(grepl(pat, x, ignore.case = TRUE))) {
-                x <- sub(pat, paste0('["', map[[k]], '"]'), x, ignore.case = TRUE)
+          normalize_block <- function(fm_lines) {
+            # Trova inizio campo publication_types:
+            s <- grep("^\\s*publication_types\\s*:\\s*", fm_lines)
+            if (length(s)) {
+              s <- s[1]
+              # Raccogli eventuali righe lista "- ..." successive
+              e <- s
+              i <- s + 1
+              while (i <= length(fm_lines) &&
+                     (grepl("^\\s*-\\s*", fm_lines[i]) || grepl("^\\s*\\[", fm_lines[i]) || grepl("^\\s*\"?\\d+\"?\\s*\\]?$", fm_lines[i]))) {
+                e <- i
+                i <- i + 1
               }
+              # Estrai valori attuali
+              block <- fm_lines[s:e]
+              values <- character(0)
+
+              # Casi: lista con "-" oppure inline con [ ... ]
+              dash_vals <- sub("^\\s*-\\s*", "", block[-1])
+              dash_vals <- dash_vals[nzchar(dash_vals)]
+              if (length(dash_vals)) {
+                values <- dash_vals
+              } else {
+                inline <- paste(block, collapse=" ")
+                m <- regmatches(inline, gregexpr("\\[([^\\]]+)\\]", inline))[[1]]
+                if (length(m)) {
+                  inside <- sub("^\\[|\\]$", "", m[1])
+                  values <- trimws(strsplit(inside, ",")[[1]])
+                  values <- gsub('^["\\'\\']|["\\'\\']$', "", values)
+                } else {
+                  # valore singolo sulla stessa riga?
+                  single <- sub("^\\s*publication_types\\s*:\\s*", "", block[1])
+                  single <- trimws(single)
+                  single <- gsub('^["\\'\\']|["\\'\\']$', "", single)
+                  if (nzchar(single)) values <- single
+                }
+              }
+
+              # Mappa a codice
+              to_code <- function(x) {
+                xl <- tolower(trimws(x))
+                if (grepl("^[0-9]+$", xl)) return(xl)
+                if (!is.na(type_map[xl])) return(unname(type_map[xl]))
+                "0"
+              }
+              codes <- vapply(values, to_code, character(1))
+              if (length(codes) == 0) codes <- "0"
+              if (any(codes != "0")) codes <- codes[codes != "0"][1] else codes <- "0"
+
+              # Sostituisci il blocco con forma compatta
+              fm_lines <- append(fm_lines[0:(s-1)],
+                                 values = paste0("publication_types: [\"", codes, "\"]"))
+              if (e < length(fm_lines)) {
+                fm_lines <- c(fm_lines, fm_lines[(e+1):length(fm_lines)])
+              }
+              return(fm_lines)
+            } else {
+              # Campo mancante: inserisci dopo la prima riga del front matter
+              fm_lines <- append(fm_lines, values = 'publication_types: ["0"]', after = 1L)
+              return(fm_lines)
             }
-            # se manca del tutto, fallback a ["0"]
-            if (!any(grepl('^\\s*publication_types\\s*:', x))) {
-              x <- append(x, 'publication_types: ["0"]', after = 1L)
-            }
-            writeLines(x, f, useBytes = TRUE)
           }
+
+          files <- list.files("content/publication", pattern="^index\\.md$", recursive=TRUE, full.names=TRUE)
+          fixed <- 0L
+          for (f in files) {
+            lines <- readLines(f, warn=FALSE, encoding="UTF-8")
+            if (length(lines) < 3 || !startsWith(lines[1], "---")) next
+            end <- which(lines[-1] == "---")
+            if (!length(end)) next
+            end <- end[1] + 1L
+
+            fm <- lines[2:(end-1)]
+            body <- if (end+1 <= length(lines)) lines[(end+1):length(lines)] else character(0)
+
+            new_fm <- tryCatch(normalize_block(fm), error=function(e) fm)
+            writeLines(c("---", new_fm, "---", body), f, useBytes=TRUE)
+            fixed <- fixed + 1L
+          }
+          cat("publication_types normalizzati in", fixed, "pagine.\n")
           RSCRIPT
 
-      # (Nuovo) Rimuove il placeholder e lascia il corpo vuoto
+      # 5) Svuota il corpo (niente placeholder)
       - name: Clear placeholder body in index.md
         run: |
           Rscript - <<'RSCRIPT'
-          # Svuota il corpo degli index.md (togliendo eventuale placeholder) lasciando solo front matter + riga vuota
-          dirs <- list.dirs("content/publication", recursive = FALSE, full.names = TRUE)
+          files <- list.files("content/publication", pattern="^index\\.md$", recursive=TRUE, full.names=TRUE)
           cleared <- 0L
-          for (d in dirs) {
-            f <- file.path(d, "index.md")
-            if (!file.exists(f)) next
+          for (f in files) {
             x <- readLines(f, warn = FALSE, encoding = "UTF-8")
             if (!length(x)) next
             k <- 0L
@@ -156,17 +219,18 @@ jobs:
             }
             if (k == 0L) next
             header <- x[1:k]
-            new_body <- c("", "")  # corpo vuoto, niente placeholder
-            writeLines(c(header, new_body), f, useBytes = TRUE)
+            # Corpo vuoto (2 righe per separazione pulita)
+            writeLines(c(header, "", ""), f, useBytes = TRUE)
             cleared <- cleared + 1L
           }
           cat("Corpi svuotati in", cleared, "pubblicazioni.\n")
           RSCRIPT
 
+      # 6) Commit & push
       - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/publication .github/workflow_data/publications*.bib || true
-          git commit -m "Auto-update publications from ORCID (normalized, cleaned bodies)" || echo "No changes"
+          git commit -m "Auto-update publications from ORCID (normalized types + cleaned bodies)" || echo "No changes"
           git push || true
