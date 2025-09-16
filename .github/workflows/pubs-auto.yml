@@ -109,7 +109,9 @@ jobs:
       - name: Normalize publication_types to compact numeric form
         run: |
           Rscript - <<'RSCRIPT'
-          # Mappa dai tipi CSL (stringhe) ai codici Wowchemy
+          library(yaml)
+
+          # mapping CSL -> Wowchemy numeric code
           type_map <- c(
             "journal-article"="2","article-journal"="2",
             "proceedings-article"="1","conference-paper"="1",
@@ -121,71 +123,16 @@ jobs:
             "patent"="8"
           )
 
-          normalize_block <- function(fm_lines) {
-            # Trova inizio campo publication_types:
-            s <- grep("^\\s*publication_types\\s*:\\s*", fm_lines)
-            if (length(s)) {
-              s <- s[1]
-              # Raccogli eventuali righe lista "- ..." successive
-              e <- s
-              i <- s + 1
-              while (i <= length(fm_lines) &&
-                     (grepl("^\\s*-\\s*", fm_lines[i]) || grepl("^\\s*\\[", fm_lines[i]) || grepl("^\\s*\"?\\d+\"?\\s*\\]?$", fm_lines[i]))) {
-                e <- i
-                i <- i + 1
-              }
-              # Estrai valori attuali
-              block <- fm_lines[s:e]
-              values <- character(0)
-
-              # Casi: lista con "-" oppure inline con [ ... ]
-              dash_vals <- sub("^\\s*-\\s*", "", block[-1])
-              dash_vals <- dash_vals[nzchar(dash_vals)]
-              if (length(dash_vals)) {
-                values <- dash_vals
-              } else {
-                inline <- paste(block, collapse=" ")
-                m <- regmatches(inline, gregexpr("\\[([^\\]]+)\\]", inline))[[1]]
-                if (length(m)) {
-                  inside <- sub("^\\[|\\]$", "", m[1])
-                  values <- trimws(strsplit(inside, ",")[[1]])
-                  values <- gsub('^["\\'\\']|["\\'\\']$', "", values)
-                } else {
-                  # valore singolo sulla stessa riga?
-                  single <- sub("^\\s*publication_types\\s*:\\s*", "", block[1])
-                  single <- trimws(single)
-                  single <- gsub('^["\\'\\']|["\\'\\']$', "", single)
-                  if (nzchar(single)) values <- single
-                }
-              }
-
-              # Mappa a codice
-              to_code <- function(x) {
-                xl <- tolower(trimws(x))
-                if (grepl("^[0-9]+$", xl)) return(xl)
-                if (!is.na(type_map[xl])) return(unname(type_map[xl]))
-                "0"
-              }
-              codes <- vapply(values, to_code, character(1))
-              if (length(codes) == 0) codes <- "0"
-              if (any(codes != "0")) codes <- codes[codes != "0"][1] else codes <- "0"
-
-              # Sostituisci il blocco con forma compatta
-              fm_lines <- append(fm_lines[0:(s-1)],
-                                 values = paste0("publication_types: [\"", codes, "\"]"))
-              if (e < length(fm_lines)) {
-                fm_lines <- c(fm_lines, fm_lines[(e+1):length(fm_lines)])
-              }
-              return(fm_lines)
-            } else {
-              # Campo mancante: inserisci dopo la prima riga del front matter
-              fm_lines <- append(fm_lines, values = 'publication_types: ["0"]', after = 1L)
-              return(fm_lines)
-            }
+          code_for <- function(x) {
+            xl <- tolower(trimws(x))
+            if (grepl("^[0-9]+$", xl)) return(xl)
+            m <- unname(type_map[xl])
+            if (is.na(m)) "0" else m
           }
 
           files <- list.files("content/publication", pattern="^index\\.md$", recursive=TRUE, full.names=TRUE)
           fixed <- 0L
+
           for (f in files) {
             lines <- readLines(f, warn=FALSE, encoding="UTF-8")
             if (length(lines) < 3 || !startsWith(lines[1], "---")) next
@@ -193,14 +140,31 @@ jobs:
             if (!length(end)) next
             end <- end[1] + 1L
 
-            fm <- lines[2:(end-1)]
-            body <- if (end+1 <= length(lines)) lines[(end+1):length(lines)] else character(0)
+            fm_txt <- paste(lines[2:(end-1)], collapse="\n")
+            body   <- if (end+1 <= length(lines)) lines[(end+1):length(lines)] else character(0)
 
-            new_fm <- tryCatch(normalize_block(fm), error=function(e) fm)
-            writeLines(c("---", new_fm, "---", body), f, useBytes=TRUE)
+            fm <- tryCatch(yaml.load(fm_txt, eval.expr=FALSE), error=function(e) NULL)
+            if (is.null(fm)) next
+
+            pt_vec <- if (is.null(fm$publication_types)) character(0) else as.character(unlist(fm$publication_types))
+            if (!length(pt_vec)) pt_vec <- "0"
+            codes <- vapply(pt_vec, code_for, character(1))
+            code  <- if (any(codes != "0")) codes[codes != "0"][1] else "0"
+
+            # rimuovi il campo e riscrivi il front matter con forma compatta
+            fm$publication_types <- NULL
+            fm_yaml <- tryCatch(as.yaml(fm, indent.mapping.sequence=TRUE), error=function(e) "")
+            fm_lines <- c(
+              "---",
+              trimws(fm_yaml, which="right"),
+              paste0("publication_types: [\"", code, "\"]"),
+              "---"
+            )
+            writeLines(c(fm_lines, body), f, useBytes=TRUE)
             fixed <- fixed + 1L
           }
-          cat("publication_types normalizzati in", fixed, "pagine.\n")
+
+          cat("publication_types normalizzati (forma compatta) in", fixed, "pagine.\n")
           RSCRIPT
 
       # 5) Svuota il corpo (niente placeholder)
@@ -219,7 +183,6 @@ jobs:
             }
             if (k == 0L) next
             header <- x[1:k]
-            # Corpo vuoto (2 righe per separazione pulita)
             writeLines(c(header, "", ""), f, useBytes = TRUE)
             cleared <- cleared + 1L
           }
