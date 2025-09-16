@@ -133,9 +133,7 @@ jobs:
             }
             # se manca del tutto, fallback a ["0"]
             if (!any(grepl('^\\s*publication_types\\s*:', x))) {
-              # inserisci dopo la prima riga del front matter
-              i <- 1L
-              x <- append(x, 'publication_types: ["0"]', after = i)
+              x <- append(x, 'publication_types: ["0"]', after = 1L)
             }
             writeLines(x, f, useBytes = TRUE)
           }
@@ -156,14 +154,16 @@ jobs:
             if (!length(idx)) return(0L)
             return(idx[1] + 1L)
           }
+
           extract_yaml_value <- function(lines, key){
-            i <- grep(paste0("^\\s*", key, "\\s*[:=]"), lines)
+            i <- grep(paste0("^\\s*", key, "\\s*:"), lines)
             if (!length(i)) return(NA_character_)
-            val <- sub('^\\s*[^:]+=\\s*', '', lines[i[1]])
-            val <- sub('^\\s*[^:]+:\\s*', '', val)
-            val <- str_replace_all(val, '^["\\'\\']|["\\'\\']$', '')
+            val <- sub("^\\s*[^:]+:\\s*", "", lines[i[1]])
+            # rimuovi eventuali apici iniziali/finali
+            val <- gsub("^['\"]|['\"]$", "", val)
             str_trim(val)
           }
+
           clean_abstract <- function(text){
             if (is.na(text) || !nzchar(text)) return(NA_character_)
             txt <- tryCatch({
@@ -173,6 +173,7 @@ jobs:
             text <- gsub("<[^>]+>", " ", text)
             str_squish(text)
           }
+
           get_abstract_for_dir <- function(dir){
             # 1) cite.bib
             bibf <- file.path(dir, "cite.bib")
@@ -184,7 +185,7 @@ jobs:
                 if (!is.na(ab) && nzchar(ab)) return(ab)
               }
             }
-            # 2) Crossref per DOI
+            # 2) Crossref via DOI
             idx <- file.path(dir, "index.md")
             if (file.exists(idx)) {
               lines <- readLines(idx, warn=FALSE, encoding="UTF-8")
@@ -200,13 +201,39 @@ jobs:
             }
             return(NA_character_)
           }
+
           replace_body_with_abstract <- function(idx_file, abstract){
             lines <- readLines(idx_file, warn=FALSE, encoding="UTF-8")
             k <- read_frontmatter_end(lines)
             if (k == 0L) return(FALSE)
             header <- lines[1:k]
-            # titolo sezione + abstract (o corpo vuoto se assente)
             new_body <- if (!is.na(abstract) && nzchar(abstract)) {
               c("", "## Abstract", "", abstract, "")
             } else {
-              c("",
+              c("", "")
+            }
+            writeLines(c(header, new_body), idx_file, useBytes=TRUE)
+            TRUE
+          }
+
+          # Main ------------------------------------------------------------
+          dirs <- list.dirs("content/publication", recursive=FALSE, full.names=TRUE)
+          cat("Injecting abstracts in", length(dirs), "publications…\n")
+          injected <- 0L
+          for (d in dirs) {
+            idx <- file.path(d, "index.md")
+            if (!file.exists(idx)) next
+            ab <- get_abstract_for_dir(d)
+            ok <- replace_body_with_abstract(idx, ab)
+            if (ok) injected <- injected + 1L
+          }
+          cat("Abstract injected/cleansed in", injected, "index.md files.\n")
+          RSCRIPT
+
+      - name: Commit & push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/publication .github/workflow_data/publications*.bib || true
+          git commit -m "Auto-update publications from ORCID (with abstracts)" || echo "No changes"
+          git push || true
