@@ -1,28 +1,26 @@
 ---
-title: 'Risk of malignant transformation and infections in congenital lung malformations
-  in adults: a systematic review'
+title: 'Headache in the paediatric population: the role of the ophthalmologist'
 
 # Authors
 # A YAML list of author names
 # If you created a profile for a user (e.g. the default `admin` user at `content/authors/admin/`), 
 # write the username (folder name) here, and it will be replaced with their full name and linked to their profile.
 authors:
-- Federica Pederiva
+- Marta Degrassi
+- Stefania Tonetto
+- Paola Michieletto
 - Paolo Dalena
-- Noemi Pasqua
-- Ilia Bresesti
-- Valeria Testa
-- Salvatore Zirpoli
-- Valerio Gentilino
+- Egidio Barbi
+- Stefano Pensiero
 
 # Author notes (such as 'Equal Contribution')
 # A YAML list of notes for each author in the above `authors` list
 author_notes: []
 
-date: '2025-04-01'
+date: '2025-06-01'
 
 # Date to publish webpage (NOT necessarily Bibtex publication's date).
-publishDate: '2025-09-16T13:26:33.704600Z'
+publishDate: '2025-09-16T13:26:33.670768Z'
 
 # Publication type.
 # A single CSL publication type but formatted as a YAML list (for Hugo requirements).
@@ -30,10 +28,10 @@ publication_types:
 - article-journal
 
 # Publication name and optional abbreviated publication name.
-publication: '*European Respiratory Review*'
+publication: '*Frontiers in Pediatrics*'
 publication_short: ''
 
-doi: 10.1183/16000617.0254-2024
+doi: 10.3389/fped.2025.1547750
 
 abstract: ''
 
@@ -75,7 +73,7 @@ image:
 projects: []
 links:
 - name: URL
-  url: http://dx.doi.org/10.1183/16000617.0254-2024
+  url: http://dx.doi.org/10.3389/fped.2025.1547750
 ---
 
 
