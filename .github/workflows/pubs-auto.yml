@@ -27,69 +27,65 @@ jobs:
             jsonlite
             rcrossref
             bibtex
+            xml2
+            stringr
 
-      - name: Generate BibTeX from ORCID
+      # Rigenera SEMPRE il BibTeX da ORCID e sovrascrive il file se ha contenuti
+      - name: Fetch BibTeX from ORCID (always overwrite if non-empty)
         env:
-          ORCID_ID: "0000-0003-2920-9572"
+          ORCID_ID: "0000-0003-2920-9572"  # <-- il tuo ORCID
         run: |
+          mkdir -p .github/workflow_data
           Rscript - <<'RSCRIPT'
-          library(httr)
-          library(jsonlite)
-          library(rcrossref)
+          library(httr); library(jsonlite); library(rcrossref)
 
           orcid <- Sys.getenv("ORCID_ID")
-          if (!nzchar(orcid)) stop("ORCID_ID non impostato")
+          stopifnot(nzchar(orcid))
 
           url <- sprintf("https://pub.orcid.org/v3.0/%s/works", orcid)
-          resp <- httr::GET(url, httr::accept_json())
-          stop_for_status(resp)
+          resp <- httr::GET(url, httr::accept_json()); httr::stop_for_status(resp)
           works <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyVector = FALSE)
 
           `%||%` <- function(x, y) if (is.null(x)) y else x
-          extract_dois <- function(group) {
+          extract_dois <- function(group){
             ws <- group[["work-summary"]]; if (is.null(ws)) return(character(0))
-            unlist(lapply(ws, function(w) {
+            unlist(lapply(ws, function(w){
               ext <- w[["external-ids"]][["external-id"]]; if (is.null(ext)) return(character(0))
-              dois <- vapply(ext, function(e) {
+              dois <- vapply(ext, function(e){
                 typ <- tolower(e[["external-id-type"]] %||% ""); val <- e[["external-id-value"]] %||% ""
-                if (typ == "doi" && nzchar(val)) gsub("^https?://(dx\\.)?doi\\.org/", "", val, ignore.case = TRUE) else ""
+                if (typ == "doi" && nzchar(val)) gsub("^https?://(dx\\.)?doi\\.org/", "", val, ignore.case=TRUE) else ""
               }, "")
               dois[nzchar(dois)]
-            }), use.names = FALSE)
+            }), use.names=FALSE)
           }
           groups <- works[["group"]] %||% list()
           dois <- unique(unlist(lapply(groups, extract_dois), use.names = FALSE))
 
-          if (length(dois) == 0) {
-            message("Nessun DOI trovato su ORCID.")
+          if (!length(dois)) {
+            message("ORCID ha restituito 0 DOI: mantengo il file esistente (se presente).")
             quit(save="no", status=0)
           }
 
-          message("Trovati ", length(dois), " DOI su ORCID. Scarico i BibTeX da Crossref…")
-
-          get_bib <- function(doi) {
-            tryCatch({ Sys.sleep(0.15); rcrossref::cr_cn(doi, "bibtex") }, error = function(e) NA_character_)
-          }
+          get_bib <- function(doi) tryCatch({ Sys.sleep(0.15); rcrossref::cr_cn(doi,"bibtex") }, error=function(e) NA_character_)
           bibs <- unique(na.omit(vapply(dois, get_bib, "")))
 
-          if (length(bibs) == 0) {
-            message("Nessun BibTeX recuperato.")
+          if (!length(bibs)) {
+            message("Crossref ha restituito 0 BibTeX: mantengo il file esistente (se presente).")
             quit(save="no", status=0)
           }
 
-          dir.create("data", showWarnings = FALSE)
-          writeLines(bibs, "data/publications.bib")
-          message("Scritto data/publications.bib con ", length(bibs), " voci.")
+          writeLines(bibs, ".github/workflow_data/publications.bib")
+          cat("Scritto .github/workflow_data/publications.bib con", length(bibs), "voci\n")
           RSCRIPT
 
       - name: Normalize BibTeX (CLI-friendly)
-        if: ${{ hashFiles('data/publications.bib') != '' }}
+        if: ${{ hashFiles('.github/workflow_data/publications.bib') != '' }}
         run: |
           Rscript - <<'RSCRIPT'
           library(bibtex)
-          x <- bibtex::read.bib("data/publications.bib")
-          bibtex::write.bib(x, file = "data/publications_clean.bib")
-          cat("Normalizzato in data/publications_clean.bib\n")
+          x <- bibtex::read.bib(".github/workflow_data/publications.bib")
+          bibtex::write.bib(x, file = ".github/workflow_data/publications_clean.bib")
+          cat("Normalizzato in .github/workflow_data/publications_clean.bib\n")
           RSCRIPT
 
       - name: Setup Python
@@ -101,17 +97,116 @@ jobs:
         run: pip install -U academic
 
       - name: Import into content/publication
-        if: ${{ hashFiles('data/publications_clean.bib') != '' }}
+        if: ${{ hashFiles('.github/workflow_data/publications_clean.bib') != '' }}
         run: |
           mkdir -p content/publication
-          abs_in="$(pwd)/data/publications_clean.bib"
+          abs_in="$(pwd)/.github/workflow_data/publications_clean.bib"
           abs_out="$(pwd)/content/publication"
           academic import --bibtex "$abs_in" "$abs_out" --overwrite --normalize -v
 
-      - name: Commit & push
+      # Normalizza eventuali tipi "verbosi" → codici numerici Wowchemy
+      - name: Normalize publication_types to numeric codes
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/publication data/publications*.bib || true
-          git commit -m "Auto-update publications from ORCID" || echo "No changes"
-          git push || true
+          Rscript - <<'RSCRIPT'
+          map <- list(
+            "journal-article"="2","article-journal"="2",
+            "proceedings-article"="1","conference-paper"="1",
+            "preprint"="3","posted-content"="3",
+            "report"="4",
+            "book"="5",
+            "book-chapter"="6","chapter"="6",
+            "thesis"="7",
+            "patent"="8"
+          )
+          dirs <- list.dirs("content/publication", recursive = FALSE, full.names = TRUE)
+          for (d in dirs) {
+            f <- file.path(d, "index.md")
+            if (!file.exists(f)) next
+            x <- readLines(f, warn = FALSE, encoding = "UTF-8")
+
+            # sostituisci forme verbose con i codici
+            for (k in names(map)) {
+              pat <- paste0('\\["?', k, '"?\\]')
+              if (any(grepl(pat, x, ignore.case = TRUE))) {
+                x <- sub(pat, paste0('["', map[[k]], '"]'), x, ignore.case = TRUE)
+              }
+            }
+            # se manca del tutto, fallback a ["0"]
+            if (!any(grepl('^\\s*publication_types\\s*:', x))) {
+              # inserisci dopo la prima riga del front matter
+              i <- 1L
+              x <- append(x, 'publication_types: ["0"]', after = i)
+            }
+            writeLines(x, f, useBytes = TRUE)
+          }
+          RSCRIPT
+
+      # Inserisce "## Abstract" + testo abstract nel corpo di ogni index.md
+      - name: Inject abstract into index.md (from cite.bib or Crossref)
+        run: |
+          Rscript - <<'RSCRIPT'
+          suppressPackageStartupMessages({
+            library(bibtex); library(rcrossref); library(xml2); library(stringr)
+          })
+
+          # Helpers ---------------------------------------------------------
+          read_frontmatter_end <- function(lines) {
+            if (length(lines) < 2 || !startsWith(lines[1], "---")) return(0L)
+            idx <- which(lines[-1] == "---")
+            if (!length(idx)) return(0L)
+            return(idx[1] + 1L)
+          }
+          extract_yaml_value <- function(lines, key){
+            i <- grep(paste0("^\\s*", key, "\\s*[:=]"), lines)
+            if (!length(i)) return(NA_character_)
+            val <- sub('^\\s*[^:]+=\\s*', '', lines[i[1]])
+            val <- sub('^\\s*[^:]+:\\s*', '', val)
+            val <- str_replace_all(val, '^["\\'\\']|["\\'\\']$', '')
+            str_trim(val)
+          }
+          clean_abstract <- function(text){
+            if (is.na(text) || !nzchar(text)) return(NA_character_)
+            txt <- tryCatch({
+              as.character(xml_text(read_xml(paste0("<root>", text, "</root>"))))
+            }, error=function(e) NA_character_)
+            if (!is.na(txt)) return(str_squish(txt))
+            text <- gsub("<[^>]+>", " ", text)
+            str_squish(text)
+          }
+          get_abstract_for_dir <- function(dir){
+            # 1) cite.bib
+            bibf <- file.path(dir, "cite.bib")
+            if (file.exists(bibf)) {
+              b <- tryCatch(read.bib(bibf), error=function(e) NULL)
+              if (!is.null(b) && length(b)) {
+                ab <- tryCatch(as.character(b[[1]]$abstract), error=function(e) NA_character_)
+                ab <- clean_abstract(ab)
+                if (!is.na(ab) && nzchar(ab)) return(ab)
+              }
+            }
+            # 2) Crossref per DOI
+            idx <- file.path(dir, "index.md")
+            if (file.exists(idx)) {
+              lines <- readLines(idx, warn=FALSE, encoding="UTF-8")
+              doi <- extract_yaml_value(lines, "doi")
+              if (!is.na(doi) && nzchar(doi)) {
+                cr <- tryCatch(cr_works(dois = doi), error=function(e) NULL)
+                if (!is.null(cr) && !is.null(cr$data) && nrow(cr$data)) {
+                  ab <- cr$data$abstract[1]
+                  ab <- clean_abstract(ab)
+                  if (!is.na(ab) && nzchar(ab)) return(ab)
+                }
+              }
+            }
+            return(NA_character_)
+          }
+          replace_body_with_abstract <- function(idx_file, abstract){
+            lines <- readLines(idx_file, warn=FALSE, encoding="UTF-8")
+            k <- read_frontmatter_end(lines)
+            if (k == 0L) return(FALSE)
+            header <- lines[1:k]
+            # titolo sezione + abstract (o corpo vuoto se assente)
+            new_body <- if (!is.na(abstract) && nzchar(abstract)) {
+              c("", "## Abstract", "", abstract, "")
+            } else {
+              c("",
