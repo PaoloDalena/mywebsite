@@ -26,10 +26,11 @@ jobs:
             httr
             jsonlite
             rcrossref
+            bibtex
 
       - name: Generate BibTeX from ORCID
         env:
-          ORCID_ID: "0000-0003-2920-9572"   # <-- il tuo ORCID
+          ORCID_ID: "0000-0003-2920-9572"
         run: |
           Rscript - <<'RSCRIPT'
           library(httr)
@@ -39,33 +40,23 @@ jobs:
           orcid <- Sys.getenv("ORCID_ID")
           if (!nzchar(orcid)) stop("ORCID_ID non impostato")
 
-          # 1) Leggi le "works" da ORCID (API pubblica, JSON)
           url <- sprintf("https://pub.orcid.org/v3.0/%s/works", orcid)
           resp <- httr::GET(url, httr::accept_json())
           stop_for_status(resp)
           works <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"), simplifyVector = FALSE)
 
-          # 2) Estrai i DOI dalle works (nei "external-ids")
-          extract_dois <- function(work_group) {
-            # Struttura: group -> work-summary (lista) -> external-ids -> external-id (lista)
-            ws <- work_group[["work-summary"]]
-            if (is.null(ws)) return(character(0))
+          `%||%` <- function(x, y) if (is.null(x)) y else x
+          extract_dois <- function(group) {
+            ws <- group[["work-summary"]]; if (is.null(ws)) return(character(0))
             unlist(lapply(ws, function(w) {
-              ext <- w[["external-ids"]][["external-id"]]
-              if (is.null(ext)) return(character(0))
+              ext <- w[["external-ids"]][["external-id"]]; if (is.null(ext)) return(character(0))
               dois <- vapply(ext, function(e) {
-                typ <- tolower(e[["external-id-type"]] %||% "")
-                val <- e[["external-id-value"]] %||% ""
-                if (typ == "doi" && nzchar(val)) {
-                  # normalizza: togli eventuale "https://doi.org/"
-                  gsub("^https?://(dx\\.)?doi\\.org/", "", val, ignore.case = TRUE)
-                } else ""
+                typ <- tolower(e[["external-id-type"]] %||% ""); val <- e[["external-id-value"]] %||% ""
+                if (typ == "doi" && nzchar(val)) gsub("^https?://(dx\\.)?doi\\.org/", "", val, ignore.case = TRUE) else ""
               }, "")
               dois[nzchar(dois)]
             }), use.names = FALSE)
           }
-          `%||%` <- function(x, y) if (is.null(x)) y else x
-
           groups <- works[["group"]] %||% list()
           dois <- unique(unlist(lapply(groups, extract_dois), use.names = FALSE))
 
@@ -76,24 +67,29 @@ jobs:
 
           message("Trovati ", length(dois), " DOI su ORCID. Scarico i BibTeX da Crossref…")
 
-          # 3) Per ciascun DOI, scarica il BibTeX diretto da Crossref
           get_bib <- function(doi) {
-            tryCatch({
-              # piccolo backoff per cortesia verso l'API
-              Sys.sleep(0.15)
-              rcrossref::cr_cn(doi, "bibtex")
-            }, error = function(e) NA_character_)
+            tryCatch({ Sys.sleep(0.15); rcrossref::cr_cn(doi, "bibtex") }, error = function(e) NA_character_)
           }
           bibs <- unique(na.omit(vapply(dois, get_bib, "")))
 
           if (length(bibs) == 0) {
-            message("Nessun BibTeX recuperato (possibile downtime Crossref o DOI non risolti).")
+            message("Nessun BibTeX recuperato.")
             quit(save="no", status=0)
           }
 
           dir.create("data", showWarnings = FALSE)
           writeLines(bibs, "data/publications.bib")
           message("Scritto data/publications.bib con ", length(bibs), " voci.")
+          RSCRIPT
+
+      - name: Normalize BibTeX (CLI-friendly)
+        if: ${{ hashFiles('data/publications.bib') != '' }}
+        run: |
+          Rscript - <<'RSCRIPT'
+          library(bibtex)
+          x <- bibtex::read.bib("data/publications.bib")
+          bibtex::write.bib(x, file = "data/publications_clean.bib")
+          cat("Normalizzato in data/publications_clean.bib\n")
           RSCRIPT
 
       - name: Setup Python
@@ -105,13 +101,17 @@ jobs:
         run: pip install -U academic
 
       - name: Import into content/publication
-        if: ${{ hashFiles('data/publications.bib') != '' }}
-        run: academic import --bibtex data/publications.bib --overwrite
+        if: ${{ hashFiles('data/publications_clean.bib') != '' }}
+        run: |
+          mkdir -p content/publication
+          abs_in="$(pwd)/data/publications_clean.bib"
+          abs_out="$(pwd)/content/publication"
+          academic import --bibtex "$abs_in" "$abs_out" --overwrite --normalize -v
 
       - name: Commit & push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/publication data/publications.bib || true
+          git add content/publication data/publications*.bib || true
           git commit -m "Auto-update publications from ORCID" || echo "No changes"
           git push || true
