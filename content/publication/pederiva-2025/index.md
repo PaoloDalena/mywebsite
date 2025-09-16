@@ -26,8 +26,7 @@ publishDate: '2025-09-16T11:04:34.973775Z'
 
 # Publication type.
 # A single CSL publication type but formatted as a YAML list (for Hugo requirements).
-publication_types:
-- article-journal
+publication_types: ["2"]
 
 # Publication name and optional abbreviated publication name.
 publication: '*European Respiratory Review*'
