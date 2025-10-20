@@ -1,17 +1,17 @@
 ---
-title: 'IMPACT OF VACTERL ASSOCIATION AND CHROMOSOMAL ANOMALIES ON OUTCOMES AFTER
-  ESOPHAGEAL ATRESIA REPAIR: INSIGHTS FROM THE EUPSA REGISTRY'
+title: 'Impact of VACTERL Association and Chromosomal Anomalies on Outcomes After
+  Esophageal Atresia Repair: Insights from the EUPSA Registry'
 authors:
   - Tutku Soyer
   - Federica Pederiva
   - Paolo Dalena
   - Luca Pio
   - Mohit Kakar
-  - Nigel J Hall
+  - Nigel J. Hall
   - Francesco Morini
 author_notes: []
 date: '2025-09-01'
-publishDate: '2025-10-13T04:06:40.698159Z'
+publishDate: '2025-10-20T03:49:11.937952Z'
 publication: '*European Journal of Pediatric Surgery*'
 publication_short: ''
 doi: 10.1055/a-2708-2852
