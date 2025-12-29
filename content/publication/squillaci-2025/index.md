@@ -13,7 +13,7 @@ authors:
   - Egidio Barbi
 author_notes: []
 date: '2025-07-01'
-publishDate: '2025-12-22T04:06:12.203617Z'
+publishDate: '2025-12-29T04:11:00.986182Z'
 publication: '*Acta Anaesthesiologica Scandinavica*'
 publication_short: ''
 doi: 10.1111/aas.70107
