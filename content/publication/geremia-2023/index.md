@@ -9,7 +9,7 @@ authors:
   - Marzia Lazzerini
 author_notes: []
 date: '2023-05-01'
-publishDate: '2025-12-29T04:11:01.113795Z'
+publishDate: '2026-01-05T04:16:36.364927Z'
 publication: '*Journal of Global Health*'
 publication_short: ''
 doi: 10.7189/jogh.13.06013
