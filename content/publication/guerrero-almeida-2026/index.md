@@ -12,7 +12,7 @@ authors:
   - Gianluca Tornese
 author_notes: []
 date: '2026-01-01'
-publishDate: '2026-02-02T04:59:10.841766Z'
+publishDate: '2026-02-09T05:01:15.999102Z'
 publication: '*Endocrine Practice*'
 publication_short: ''
 doi: 10.1016/j.eprac.2026.01.018

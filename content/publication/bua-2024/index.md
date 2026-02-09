@@ -13,7 +13,7 @@ authors:
   - Marzia Lazzerini
 author_notes: []
 date: '2024-03-01'
-publishDate: '2026-02-02T04:59:10.987433Z'
+publishDate: '2026-02-09T05:01:16.143195Z'
 publication: '*BMJ Paediatrics Open*'
 publication_short: ''
 doi: 10.1136/bmjpo-2023-002429
