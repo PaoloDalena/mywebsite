@@ -8,10 +8,10 @@ section_id: publicationsnetwork     # (consigliato) id esplicito per l’ancora 
 ---
 
 <div id="my-html">
-<p>Check my network of scientific collaborations according to the publications in <a href="https://orcid.org/0000-0003-2920-9572">my ORCID</a> <small>(updated to 15/09/2025)</small>:</p>
+<p>Check my network of scientific collaborations according to the publications in <a href="https://orcid.org/0000-0003-2920-9572">my ORCID</a> <small>(updated to Feb 2026)</small>:</p>
 <iframe
   allowfullscreen="true"
-  src="https://app.vosviewer.com/?json=https%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D19ncjpttV7QlLVEUWL9sH9K_STu4kU-VK&simple_ui=true"
+  src="https://app.vosviewer.com/?json=https%3A%2F%2Fdrive.google.com%2Fuc%3Fid%3D1FEzzELfNoFNtFqcuTGq8TrDMm5vGpE3R&simple_ui=true"
   width="100%"
   height="75%"
   style="border: 1px solid #ddd; max-width: 1200px; min-height: 500px">
