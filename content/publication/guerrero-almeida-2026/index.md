@@ -1,6 +1,6 @@
 ---
-title: 'Public awareness of Type 1 Diabetes and the new Italian childhood screening
-  program: results from a cross-sectional survey in Italy'
+title: 'Public Awareness of Type 1 Diabetes and the New Italian Childhood Screening
+  Program: Results From a Cross-Sectional Survey in Italy'
 authors:
   - Ilen Lucia Guerrero Almeida
   - Alice Fachin
@@ -12,7 +12,7 @@ authors:
   - Gianluca Tornese
 author_notes: []
 date: '2026-01-01'
-publishDate: '2026-02-16T05:00:18.939058Z'
+publishDate: '2026-02-23T04:59:43.906757Z'
 publication: '*Endocrine Practice*'
 publication_short: ''
 doi: 10.1016/j.eprac.2026.01.018
