@@ -11,7 +11,7 @@ authors:
   - Valerio Gentilino
 author_notes: []
 date: '2025-04-01'
-publishDate: '2026-06-15T09:22:35.677834Z'
+publishDate: '2026-06-22T08:59:01.157726Z'
 publication: '*European Respiratory Review*'
 publication_short: ''
 doi: 10.1183/16000617.0254-2024
