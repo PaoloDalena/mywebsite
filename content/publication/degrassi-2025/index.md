@@ -9,7 +9,7 @@ authors:
   - Stefano Pensiero
 author_notes: []
 date: '2025-06-01'
-publishDate: '2026-06-29T08:14:56.525822Z'
+publishDate: '2026-07-06T15:02:43.285125Z'
 publication: '*Frontiers in Pediatrics*'
 publication_short: ''
 doi: 10.3389/fped.2025.1547750
