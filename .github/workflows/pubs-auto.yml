@@ -65,8 +65,16 @@ jobs:
             quit(save="no", status=0)
           }
 
-          get_bib <- function(doi) tryCatch({ Sys.sleep(0.15); rcrossref::cr_cn(doi,"bibtex") }, error=function(e) NA_character_)
-          bibs <- unique(na.omit(vapply(dois, get_bib, "")))
+          get_bib <- function(doi) {
+            res <- tryCatch({ Sys.sleep(0.15); rcrossref::cr_cn(doi, "bibtex") }, error = function(e) NA_character_)
+            if (length(res) != 1L) NA_character_ else res
+          }
+
+          bibs <- character(0)
+          for (doi in dois) {
+            bibs <- c(bibs, get_bib(doi))
+          }
+          bibs <- unique(na.omit(bibs))
 
           if (!length(bibs)) {
             message("Crossref ha restituito 0 BibTeX: mantengo il file esistente (se presente).")
