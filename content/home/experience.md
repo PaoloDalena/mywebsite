@@ -30,6 +30,14 @@ experience:
     date_end: ''
     description: |2-
         Project title: "Development of a prioritization algorithm of pathogenic variants based on public databases of different origins."
+  - title: Visiting PhD Student
+    company: University College Dublin
+    company_url: 'https://www.ucd.ie/mathstat/'
+    location: Dublin, Ireland
+    date_start: '2026-03-03'
+    date_end: ''
+    description: |2-
+        UCD School of Mathematics and Statistics
   - title: Health Researcher - Data Scientist
     company: IRCCS Burlo Garofolo
     company_url: 'https://www.burlo.trieste.it/'
