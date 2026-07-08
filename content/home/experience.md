@@ -81,7 +81,7 @@ experience:
 
   - title: Research Intern
     company: Unit of Biostatistics, Epidemiology and Public Health - University of Padova
-    company_url: 'https://ubesp.jimdofree.com/'
+    company_url: 'https://www.unipd-ubep.it/'
     company_logo: ubep-logo
     location: Padova, Italy
     date_start: '2019-01-01'
