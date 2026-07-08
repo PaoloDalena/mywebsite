@@ -53,7 +53,7 @@ experience:
         * Writing research protocols.
         * Project management.
         
-  - title: Research Collaborator
+  - title: Research Fellow
     company: WHO Collaborating Centre for Maternal & Child Health
     company_url: 'https://apps.who.int/whocc/Detail.aspx?T28gvIaS0+uDrSKBCUN0vw=='
     company_logo: WHO_logo.svg
@@ -66,6 +66,14 @@ experience:
         * Biostatistical analysis of data from active projects.
         * Project management.
         * Writing scientific papers.
+  - title: Research Intern — Erasmus+ Exchange
+    company: Technische Hochschule Mannheim
+    company_url: 'https://www.english.hs-mannheim.de/the-university.html'
+    location: Mannheim, Germany
+    date_start: '2021-04-01'
+    date_end: '2021-09-01'
+    description: |2-
+        Collaboration on research project with the Institute of Mathematical Biology (Department of Computer Sciences, Mannheim University of Applied Sciences) for my MSc thesis.
   - title: Research Intern
     company: Research Centre | Deutsche Bundesbank
     company_url: 'https://www.bundesbank.de/en/bundesbank/research/research-centre'

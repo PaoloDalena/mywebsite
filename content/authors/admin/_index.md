@@ -40,9 +40,6 @@ education:
   - course: MSc in Statistical Sciences (curr. Data Science)
     institution: Alma Mater Studiorum - University of Bologna
     year: Oct 2021, 110/110 L
-  - course: Erasmus+ exchange
-    institution: Mannheim University of Applied Sciences
-    year: Apr-Sep 2021
   - course: BSc in Statistical Sciences (curr. Economics & Business)
     institution: Alma Mater Studiorum - University of Bologna
     year: Jul 2019, 110/110 L
