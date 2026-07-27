@@ -1,6 +1,6 @@
 ---
-title: 'Reply to: Comment on: Risk of malignant transformation and infections in congenital
-  lung malformations in adults: a systematic review'
+title: 'Risk of malignant transformation and infections in congenital lung malformations
+  in adults: a systematic review'
 authors:
   - Federica Pederiva
   - Paolo Dalena
@@ -10,11 +10,11 @@ authors:
   - Salvatore Zirpoli
   - Valerio Gentilino
 author_notes: []
-date: '2025-07-01'
-publishDate: '2026-07-20T06:18:36.700524Z'
+date: '2025-04-01'
+publishDate: '2026-07-27T06:32:31.641795Z'
 publication: '*European Respiratory Review*'
 publication_short: ''
-doi: 10.1183/16000617.0166-2025
+doi: 10.1183/16000617.0254-2024
 abstract: ''
 summary: ''
 tags: []
@@ -34,7 +34,7 @@ image:
 projects: []
 links:
   - name: URL
-    url: http://dx.doi.org/10.1183/16000617.0166-2025
+    url: http://dx.doi.org/10.1183/16000617.0254-2024
 publication_types: '2'
 ---
 
