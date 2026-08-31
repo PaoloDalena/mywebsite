@@ -14,7 +14,7 @@ authors:
   - Gianluca Tornese
 author_notes: []
 date: '2025-05-01'
-publishDate: '2026-08-24T03:56:06.522568Z'
+publishDate: '2026-08-31T09:23:42.848069Z'
 publication: '*Frontiers in Endocrinology*'
 publication_short: ''
 doi: 10.3389/fendo.2025.1571685
