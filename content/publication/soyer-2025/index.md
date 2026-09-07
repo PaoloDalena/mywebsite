@@ -11,7 +11,7 @@ authors:
   - Francesco Morini
 author_notes: []
 date: '2025-09-01'
-publishDate: '2026-08-31T09:23:42.758353Z'
+publishDate: '2026-09-07T07:58:49.741324Z'
 publication: '*European Journal of Pediatric Surgery*'
 publication_short: ''
 doi: 10.1055/a-2708-2852
