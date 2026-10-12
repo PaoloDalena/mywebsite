@@ -18,7 +18,7 @@ authors:
   - Marzia Lazzerini
 author_notes: []
 date: '2025-04-01'
-publishDate: '2026-10-05T10:04:02.236198Z'
+publishDate: '2026-10-12T10:17:41.614271Z'
 publication: '*Children*'
 publication_short: ''
 doi: 10.3390/children12040496
