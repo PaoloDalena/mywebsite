@@ -1,6 +1,6 @@
 ---
-title: 'CONGENITAL HEPATOPULMONARY FUSION IN RIGHT CONGENITAL DIAPHRAGMATIC HERNIA:
-  SURGICAL STRATEGY AND OUTCOMES IN A MULTICENTER COHORT'
+title: 'Congenital hepatopulmonary fusion in right congenital diaphragmatic hernia:
+  Surgical strategy and outcomes in a multicenter cohort'
 authors:
   - Federica Pederiva
   - Valerio Gentilino
@@ -45,8 +45,8 @@ authors:
   - Caroline Y. Noh
   - Shilpa Sharma
 author_notes: []
-date: '2026-10-01'
-publishDate: '2026-10-12T10:17:41.496144Z'
+date: '2026-12-01'
+publishDate: '2026-10-19T08:31:56.679977Z'
 publication: '*Journal of Pediatric Surgery*'
 publication_short: ''
 doi: 10.1016/j.jpedsurg.2026.163521
