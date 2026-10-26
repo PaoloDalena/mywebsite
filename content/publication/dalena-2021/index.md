@@ -4,7 +4,7 @@ authors:
   - Paolo Dalena
 author_notes: []
 date: '2021-02-01'
-publishDate: '2026-10-19T08:31:56.903687Z'
+publishDate: '2026-10-26T08:35:27.097625Z'
 publication: '*CRAN: Contributed Packages*'
 publication_short: ''
 doi: 10.32614/cran.package.tastypie

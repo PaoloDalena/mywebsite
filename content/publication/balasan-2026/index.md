@@ -17,7 +17,7 @@ authors:
   - Feras Kharrat
 author_notes: []
 date: '2026-08-01'
-publishDate: '2026-10-19T08:31:56.702232Z'
+publishDate: '2026-10-26T08:35:26.949355Z'
 publication: '*International Journal of Molecular Sciences*'
 publication_short: ''
 doi: 10.3390/ijms27177658

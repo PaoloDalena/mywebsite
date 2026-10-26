@@ -13,7 +13,7 @@ authors:
   - Paolo Dalena
 author_notes: []
 date: '2026-10-01'
-publishDate: '2026-10-19T08:31:56.693453Z'
+publishDate: '2026-10-26T08:35:26.944294Z'
 publication: '*BMC Pediatrics*'
 publication_short: ''
 doi: 10.1186/s12887-026-07802-6
