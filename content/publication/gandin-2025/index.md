@@ -13,7 +13,7 @@ authors:
   - G Sinagra
 author_notes: []
 date: '2025-05-01'
-publishDate: '2026-10-26T08:35:27.034961Z'
+publishDate: '2026-11-02T10:37:32.328162Z'
 publication: '*European Journal of Preventive Cardiology*'
 publication_short: ''
 doi: 10.1093/eurjpc/zwaf236.021

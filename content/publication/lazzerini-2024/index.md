@@ -20,7 +20,7 @@ authors:
   - Ilaria Mariani
 author_notes: []
 date: '2024-08-01'
-publishDate: '2026-10-26T08:35:27.087646Z'
+publishDate: '2026-11-02T10:37:32.414163Z'
 publication: '*BMJ Paediatrics Open*'
 publication_short: ''
 doi: 10.1136/bmjpo-2024-002539
