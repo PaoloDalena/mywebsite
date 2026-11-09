@@ -46,7 +46,7 @@ authors:
   - Shilpa Sharma
 author_notes: []
 date: '2026-12-01'
-publishDate: '2026-11-02T10:37:32.220953Z'
+publishDate: '2026-11-09T10:57:59.816481Z'
 publication: '*Journal of Pediatric Surgery*'
 publication_short: ''
 doi: 10.1016/j.jpedsurg.2026.163521
